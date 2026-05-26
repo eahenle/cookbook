@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cookbook"
+version = "0.1.0"
+description = "A small recipe management toolkit and CLI"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "Cookbook Contributors"}]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "black>=25.0",
+  "mypy>=1.10",
+  "pytest>=8.0",
+  "ruff>=0.5",
+]
+
+[project.scripts]
+cookbook = "cookbook.cli:main"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
