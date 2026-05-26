@@ -32,6 +32,16 @@ class Cookbook:
 
     recipes: list[Recipe] = field(default_factory=list)
 
+    def __post_init__(self) -> None:
+        """Validate invariants for pre-seeded recipes."""
+        seen: set[str] = set()
+        for recipe in self.recipes:
+            lowered_name = recipe.name.lower()
+            if lowered_name in seen:
+                msg = f"Recipe with name '{recipe.name}' already exists."
+                raise ValueError(msg)
+            seen.add(lowered_name)
+
     def add_recipe(self, recipe: Recipe) -> None:
         """Add a unique recipe by name."""
         lowered_names = {existing.name.lower() for existing in self.recipes}

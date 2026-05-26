@@ -27,6 +27,20 @@ def test_cookbook_enforces_unique_names_case_insensitive() -> None:
         raise AssertionError("Expected duplicate recipe name to fail")
 
 
+def test_cookbook_init_rejects_duplicate_names_case_insensitive() -> None:
+    try:
+        Cookbook(
+            [
+                Recipe("Toast", ("bread",), "Toast bread."),
+                Recipe("toast", ("bread", "butter"), "Toast and butter bread."),
+            ]
+        )
+    except ValueError as exc:
+        assert "already exists" in str(exc)
+    else:
+        raise AssertionError("Expected duplicate recipe name to fail during initialization")
+
+
 def test_cookbook_search_and_tag_filter() -> None:
     book = Cookbook(
         [
